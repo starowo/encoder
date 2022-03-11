@@ -1,0 +1,81 @@
+ <!DOCTYPE html>
+<html>
+<body>
+
+<h2>Encoder</h2>
+
+<p id="demo"></p>
+    <h1 id="header"></h1>
+    <input id="in">
+    <button id="awa"> encode</button>
+    <input id="out">
+    <button id="qwq"> decode</button>
+<script>
+document.getElementById("awa").onclick = encode;
+document.getElementById("qwq").onclick = decode;
+function encode() {
+  let origin = "" + document.getElementById("in").value;
+  let head = "";
+  let tmp = "";
+  let content = "";
+  head += origin.length;
+  head += 0
+  for(let i = 0; i < origin.length; i++) {
+    let code = origin.charCodeAt(i);
+        head+=(code+"").length;
+    tmp+=code;
+
+  }
+  let encoded = head + tmp;
+  console.log(encoded)
+  for(let i = 0; i < encoded.length; i += 4) {
+    let code = encoded.substring(i, i+4) - 0;
+    content += String.fromCharCode(20000+code)
+  }
+  //document.write(content+"awcf");
+  document.getElementById("out").value = content;
+}
+function decode() {
+	let encoded = "" + document.getElementById("out").value;
+  let tmp = "";
+  let lengths = [];
+  //let l = encoded[0] - 0;
+  for(let i = 0; i < encoded.length; i ++) {
+  	let code=(encoded.charCodeAt(i)-20000)+"";
+    while(code.length < 4&&i!=encoded.length-1)
+    code = "0"+code
+    tmp+=code
+  }
+  let j = 0
+  let l = ""
+  while(tmp[j]!=0){
+  l+= tmp[j]
+  j++
+  }
+  l = l-0
+
+  for(let i = 0; i < l; i++) {
+  	lengths.push(tmp[i+j+1]-0);
+  }
+  console.log(tmp)
+  let decoded = "";
+  for(let i=0, k=0 ; i<lengths.length; i++) {
+  	//console.log(i)
+  	let code = tmp.substring(k+l+j+1, k+l+lengths[i]+j+1);
+    k+=lengths[i]
+    decoded += String.fromCharCode(code);
+  }
+  console.log(decoded)
+  document.getElementById("in").value = decoded;
+}
+//setInterval(a, 50, 100);
+</script>
+<!-- 
+  Use Emmet shortcuts to even faster experience.
+  For an example: type div#root and press Tab.
+-->
+    <!-- Scripts will be included here automatically with type="module" -->
+  </body>
+</html>
+
+
